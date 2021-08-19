@@ -106,6 +106,9 @@
     </script>
     <script>
       /* 微任务调用顺序 */
+      /* 
+        微任务中 Promise 一定是优先级最高的。而 requestAnimationFrame 一定是每个event loop 中渲染之前的最后一个微任务。
+      */
       /* requestIdleCallback(function IdleCb() {
         console.log("1");
       });
@@ -132,7 +135,11 @@
       }, 1000); */
     </script>
     <script>
-      /* setTimeout + requestAnimationFrame - 定时器合并*/
+      /* 
+        setTimeout + requestAnimationFrame 
+        定时器合并，遇到宏任务，会把宏任务队列执行完毕后，再执行下面的内容。
+        可以通过 dev-tools performance 分析，只进行一次绘制
+      */
       /* setTimeout(() => {
         console.log("%c t1", "background: red;");
         requestAnimationFrame(() => console.log("r1"));
@@ -143,9 +150,15 @@
       }); */
     </script>
     <script>
-      /* 宏任务+微任务+requestAnimationFrame+requestIdleCallback --*/
+      /* 宏任务+微任务+requestAnimationFrame+requestIdleCallback */
+      /* 
+        这里会出现两种情况
+        1. 如果timer 宏任务后于 rAF，则说明第一次 event loop 没有时间去执行这个宏任务
+        2. 如果 timer 先于 rAF，那一定说明 timer 宏任务是在一次 event loop 中执行了。
+        可以通过 dev-tools performance 分析
+      */
 
-      setTimeout(function STCb() {
+      /* setTimeout(function STCb() {
         console.log("timer");
       });
       requestAnimationFrame(function RAFCb() {
@@ -156,7 +169,7 @@
       });
       requestIdleCallback(function IdleCb() {
         console.log(3);
-      });
+      }); */
     </script>
     <script>
       // 结论
