@@ -11,17 +11,29 @@
         height: 200px;
         background-color: red;
         position: absolute;
-        /*  animation: animationBox 3s infinite;
+        /* animation: animationBox 3s infinite;
         transform: rotate3d(0); */
+      }
+      /* @keyframes animationBox {
+        from {
+          left: 0px;
+        }
+        to {
+          left: 400px;
+        }
       }
       input {
         margin-top: 300px;
       }
+      input:checked ~ #box {
+        animation-play-state: paused;
+      } */
     </style>
   </head>
   <body>
-    <!-- <div id="box"></div> -->
-    <!-- <input type="text" name="" id="" /> -->
+    <!--  <input type="checkbox" name="" id="" />
+    <div id="box"></div> -->
+
     <!-- <button id="btn">按钮</button> -->
     <script>
       /* let i = 10;
@@ -41,38 +53,14 @@
     </script>
     <script>
       /* 正常渲染流程 */
-      setTimeout(() => {
-        document.body.style.background = "black";
-        setTimeout(() => {
-          document.body.style.background = "white";
-        }, 33);
-      });
-    </script>
-    <script>
-      /* 宏任务间隔过小不渲染 */
       /* setTimeout(() => {
         document.body.style.background = "black";
         setTimeout(() => {
           document.body.style.background = "white";
-        });
+        }, 33);
       }); */
     </script>
-    <script>
-      /* 微任务运行流程 */
-      /* requestIdleCallback(function IdleCb() {
-        console.log("dj");
-      });
-      requestAnimationFrame(function RAFCb() {
-        document.body.style.background = "black";
-        console.log("3");
-      });
-      Promise.resolve().then(function PromiseCb() {
-        let i = null;
-        for (i = 0; i < 100; i++) {
-          console.log("1");
-        }
-      }); */
-    </script>
+
     <script>
       /* const box = document.getElementById("box");
       let start = null; */
@@ -108,7 +96,32 @@
       btn.addEventListener("click", clickHandel); */
     </script>
     <script>
-      /* setTimeout + 微任务 */
+      /* 宏任务间隔过小不渲染 */
+      /* setTimeout(() => {
+        document.body.style.background = "black";
+        setTimeout(() => {
+          document.body.style.background = "white";
+        });
+      }); */
+    </script>
+    <script>
+      /* 微任务调用顺序 */
+      /* requestIdleCallback(function IdleCb() {
+        console.log("1");
+      });
+      requestAnimationFrame(function RAFCb() {
+        document.body.style.background = "black";
+        console.log("3");
+      });
+      Promise.resolve().then(function PromiseCb() {
+        let i = null;
+        for (i = 0; i < 100; i++) {
+          console.log("2");
+        }
+      }); */
+    </script>
+    <script>
+      /* setTimeout + 微任务 -> 宏任务微任务交叉执行*/
       /* setTimeout(() => {
         console.log("t1");
         Promise.resolve().then(() => console.log("p1"));
@@ -119,15 +132,31 @@
       }, 1000); */
     </script>
     <script>
-      /* setTimeout + requestAnimationFrame */
+      /* setTimeout + requestAnimationFrame - 定时器合并*/
       /* setTimeout(() => {
         console.log("%c t1", "background: red;");
         requestAnimationFrame(() => console.log("r1"));
-      }, 1000);
+      });
       setTimeout(() => {
         console.log("%c t2", "background: blue;");
         requestAnimationFrame(() => console.log("r2"));
-      }, 1000); */
+      }); */
+    </script>
+    <script>
+      /* 宏任务+微任务+requestAnimationFrame+requestIdleCallback --*/
+
+      setTimeout(function STCb() {
+        console.log("timer");
+      });
+      requestAnimationFrame(function RAFCb() {
+        console.log("rAF");
+      });
+      Promise.resolve().then(function PCb() {
+        console.log("promise");
+      });
+      requestIdleCallback(function IdleCb() {
+        console.log(3);
+      });
     </script>
     <script>
       // 结论
