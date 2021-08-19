@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #box {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        position: absolute;
+        /*  animation: animationBox 3s infinite;
+        transform: rotate3d(0); */
+      }
+      input {
+        margin-top: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div id="box"></div> -->
+    <!-- <input type="text" name="" id="" /> -->
+    <!-- <button id="btn">按钮</button> -->
+    <script>
+      /* let i = 10;
+      let req = () => {
+        i--;
+        requestAnimationFrame(() => {
+          document.body.style.background = "black";
+          requestAnimationFrame(() => {
+            document.body.style.background = "white";
+            if (i > 0) {
+              req();
+            }
+          });
+        });
+      };
+      req(); */
+    </script>
+    <script>
+      /* 正常渲染流程 */
+      setTimeout(() => {
+        document.body.style.background = "black";
+        setTimeout(() => {
+          document.body.style.background = "white";
+        }, 33);
+      });
+    </script>
+    <script>
+      /* 宏任务间隔过小不渲染 */
+      /* setTimeout(() => {
+        document.body.style.background = "black";
+        setTimeout(() => {
+          document.body.style.background = "white";
+        });
+      }); */
+    </script>
+    <script>
+      /* 微任务运行流程 */
+      /* requestIdleCallback(function IdleCb() {
+        console.log("dj");
+      });
+      requestAnimationFrame(function RAFCb() {
+        document.body.style.background = "black";
+        console.log("3");
+      });
+      Promise.resolve().then(function PromiseCb() {
+        let i = null;
+        for (i = 0; i < 100; i++) {
+          console.log("1");
+        }
+      }); */
+    </script>
+    <script>
+      /* const box = document.getElementById("box");
+      let start = null; */
+      /* function animation(timestamp) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        const left = Math.min(1400 * (progress / 3000), 1400);
+        box.style.left = left + "px";
+        if (progress < 3000) {
+          requestAnimationFrame(animation);
+        } else {
+          start = null;
+          requestAnimationFrame(animation);
+        }
+      } */
+      /* let left = 0;
+      function animation(timestamp) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        left++;
+        box.style.left = left + "px";
+        // for (let i = 0; i < 10000; i++) {
+        // console.log(i);
+        // }
+        requestAnimationFrame(animation);
+      } */
+      // requestAnimationFrame(animation);
+      /* function clickHandel() {
+        console.log("click");
+        requestAnimationFrame(animation);
+      }
+      const btn = document.getElementById("btn");
+      btn.addEventListener("click", clickHandel); */
+    </script>
+    <script>
+      /* setTimeout + 微任务 */
+      /* setTimeout(() => {
+        console.log("t1");
+        Promise.resolve().then(() => console.log("p1"));
+      }, 1000);
+      setTimeout(() => {
+        console.log("t2");
+        Promise.resolve().then(() => console.log("p2"));
+      }, 1000); */
+    </script>
+    <script>
+      /* setTimeout + requestAnimationFrame */
+      /* setTimeout(() => {
+        console.log("%c t1", "background: red;");
+        requestAnimationFrame(() => console.log("r1"));
+      }, 1000);
+      setTimeout(() => {
+        console.log("%c t2", "background: blue;");
+        requestAnimationFrame(() => console.log("r2"));
+      }, 1000); */
+    </script>
+    <script>
+      // 结论
+    </script>
+  </body>
+</html>
