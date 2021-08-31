@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #parent {
+        width: 300px;
+        height: 400px;
+        background: red;
+        overflow: scroll;
+      }
+      #child {
+        width: inherit;
+        height: 600px;
+        background: pink;
+      }
+      #child > div {
+        height: 500px;
+        background-color: green;
+      }
+      #icon {
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="parent">
+      <div id="child">
+        <div>djdj</div>
+      </div>
+      <div id="icon">aa</div>
+    </div>
+    <script>
+      const parentDom = document.getElementById("parent");
+      const icon = document.getElementById("icon");
+      const Observer = new IntersectionObserver(
+        (entries, observe) => {
+          console.log(entries, observe);
+        },
+        {
+          root: parentDom,
+          rootMargin: "100px",
+          threshold: 0,
+        }
+      );
+      Observer.observe(icon);
+    </script>
+  </body>
+</html>
